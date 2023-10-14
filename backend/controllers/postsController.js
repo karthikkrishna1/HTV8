@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/User");
 const Post = require("../models/Post");
+const axios = require("axios");
 
 const getPosts = asyncHandler(async (req, res) => {
   const posts = await Post.find().populate("Sender", "-password -Posts").exec();
@@ -60,6 +61,79 @@ const postComment = asyncHandler(async (req, res) => {
   const id = req.user;
   const { id: postId } = req.params;
   const { text } = req.body;
+  let input_array = [text];
+
+  let output_array = [];
+
+  const options = {
+    method: "POST",
+    url: "https://api.cohere.ai/v1/classify",
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      authorization: "Bearer xC36OoXLBZNXOSzHuAvGWNfVq7qUHvfO1k17Jnhy",
+    },
+    data: {
+      truncate: "END",
+      model: "large",
+      inputs: input_array,
+      examples: [
+        { text: "you are hot trash", label: "Toxic" },
+        { text: "go to hell", label: "Toxic" },
+        { text: "get rekt moron", label: "Toxic" },
+        { text: "get a brain and use it", label: "Toxic" },
+        { text: "say what you mean, you jerk.", label: "Toxic" },
+        { text: "Are you really this stupid", label: "Toxic" },
+        { text: "I will honestly kill you", label: "Toxic" },
+        { text: "yo how are you", label: "Benign" },
+        { text: "I'm curious, how did that happen", label: "Benign" },
+        { text: "Try that again", label: "Benign" },
+        { text: "Hello everyone, excited to be here", label: "Benign" },
+        { text: "I think I saw it first", label: "Benign" },
+        { text: "That is an interesting point", label: "Benign" },
+        { text: "I love this", label: "Benign" },
+        { text: "We should try that sometime", label: "Benign" },
+        { text: "You should go for it", label: "Benign" },
+      ],
+    },
+  };
+
+  axios
+    .request(options)
+    .then(async function (response) {
+      let error = "";
+      for (let i = 0; i < response.data.classifications.length; i++) {
+        if (
+          response.data.classifications[i].confidence < 0.9 ||
+          response.data.classifications[i].prediction === "Benign"
+        ) {
+          // if input is good enough
+          output_array.push(response.data.classifications[i].input);
+        } else {
+          error = "Sorry Comment not Appropirate";
+        }
+      }
+
+      if (error === "") {
+        curPost.comments.push({ user: id, text });
+        const result = await curPost.save();
+        const populatedPost = await User.populate(result, {
+          path: "comments.user",
+          select: "username picture",
+        });
+
+        if (result) {
+          return res.status(200).json({ populatedPost });
+        }
+        return res.status(500).json({ message: "Something went wrong" });
+      } else {
+        return res.status(201).json({ error: error });
+      }
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+
   const curPost = await Post.findById(postId)
     .populate("Sender", "-password -Posts")
     .exec();
@@ -67,17 +141,6 @@ const postComment = asyncHandler(async (req, res) => {
   //     path: comments.user,
   //     select: "username picture",
   //   });
-  curPost.comments.push({ user: id, text });
-  const result = await curPost.save();
-  const populatedPost = await User.populate(result, {
-    path: "comments.user",
-    select: "username picture",
-  });
-
-  if (result) {
-    return res.status(200).json({ populatedPost });
-  }
-  return res.status(500).json({ message: "Something went wrong" });
 });
 
 const getAllComments = asyncHandler(async (req, res) => {
