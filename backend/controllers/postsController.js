@@ -4,12 +4,19 @@ const Post = require("../models/Post");
 const axios = require("axios");
 
 const getPosts = asyncHandler(async (req, res) => {
-  const posts = await Post.find().populate("Sender", "-password -Posts").exec();
-  const populatedPost = await User.populate(posts, {
-    path: "comments.user",
-    select: "username picture",
-  });
-  return res.status(200).json({ posts: posts });
+  try {
+    const posts = await Post.find()
+      .populate("Sender", "-password -Posts")
+      .exec();
+    const populatedPost = await User.populate(posts, {
+      path: "comments.user",
+      select: "username picture",
+    });
+    return res.status(200).json({ posts: populatedPost });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ err });
+  }
 });
 
 const addPost = asyncHandler(async (req, res) => {
