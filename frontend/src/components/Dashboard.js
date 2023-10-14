@@ -6,16 +6,16 @@ import Post from "./Post";
 
 const Dashboard = () => {
   const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    const getposts = async () => {
-      const { posts: allPosts } = await axios.get(
-        "http://localhost:5000/posts"
-      );
-      setPosts(allPosts);
-      console.log(allPosts);
-    };
-    getposts();
-  }, []);
+  //   useEffect(() => {
+  //     const getposts = async () => {
+  //       const { posts: allPosts } = await axios.get(
+  //         "http://localhost:5000/posts"
+  //       );
+  //       setPosts(allPosts);
+  //       console.log(allPosts);
+  //     };
+  //     getposts();
+  //   }, []);
   return (
     <>
       <WithSubnavigation />
