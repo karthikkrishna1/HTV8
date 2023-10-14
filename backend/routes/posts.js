@@ -1,13 +1,18 @@
 const express = require("express");
 const router = express.Router();
-
-router.route("/").get(postsController.getPosts).post(postsController.addPost);
-
-router.route("/:id").get(postsController.getPostById);
+const postsController = require("../controllers/postsController");
+const verifyJWT = require("../middleware/verifyJWT");
 
 router
-  .route("/comments/:id")
-  .post(postsController.postComment)
+  .route("/")
+  .get(postsController.getPosts)
+  .post(verifyJWT, postsController.addPost);
+
+router.route("/:id").get(verifyJWT, postsController.getPostById);
+
+router
+  .route("/:id/comments/")
+  .post(verifyJWT, postsController.postComment)
   .get(postsController.getAllComments);
 
 module.exports = router;
