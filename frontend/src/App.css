@@ -1,16 +1,9 @@
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
 }
 
 .App-header {
@@ -24,15 +17,323 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.post {
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 16px;
+  border-radius: 2px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.post-image {
+  /*give the max width of the image 500px*/
+  max-width: 300px;
+  /*give the max height of the image 500px*/
+  max-height: 300px;
+  /*give the width of the image 100%*/
+  width: 100%;
+  /*give the height of the image 100%*/
+  height: 100%;
+  /*give the border radius of the image 5px*/
+  border-radius: 5px;
+  /*give the cursor pointer to the image*/
+  cursor: pointer;
+}
+
+.post-name {
+  font-weight: bold;
+  margin: 16px 0;
+}
+
+/* Add this CSS to your App.css file or a separate CSS file */
+
+.App {
+  text-align: center;
+}
+
+.App-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.post {
+  margin: 20px;
+  border: 1px solid #e1e1e1;
+  border-radius: 5px;
+  padding: 20px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.post .overlay-text{
+  visibility: hidden;
+  transition: delay 0.3s;
+
+}
+.post:hover .overlay-text{
+  visibility: visible;
+  font-size: small;
+  transition: filter 0.4s, transform 0.5s; /* Added transition for filter and transform */
+}
+.post:hover {
+  transform: scale(1.03);
+}
+
+.post-image {
+  cursor: pointer;
+  max-width: 100%;
+  border-radius: 5px;
+}
+
+.post-name {
+  font-size: 1.2rem;
+  margin: 10px 0;
+  color: #ffffff;
+}
+
+.post-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.view-more {
+  background-color: #007bff;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.view-more:hover {
+  background-color: #0056b3;
+}
+
+/* Add this CSS to your App.css file or a separate CSS file */
+
+.user-profile-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-name {
+  font-weight: bold;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Navigation */
+#menu {
+  padding: 15px;
+  transition: all 0.8s;
+}
+#menu.navbar-default {
+  background-color: #fff;
+  border-color: rgba(231, 231, 231, 0);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+#menu a.navbar-brand {
+  font-family: "Raleway", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  text-transform: uppercase;
+}
+#menu.navbar-default .navbar-nav > li > a {
+  font-family: "Lato", sans-serif;
+  text-transform: uppercase;
+  color: #555;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 8px 2px;
+  border-radius: 0;
+  margin: 9px 20px 0;
+}
+#menu.navbar-default .navbar-nav > li > a:after {
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(to right, #6372ff 0%, #5ca9fb 100%);
+  content: "";
+  transition: width 0.2s;
+}
+#menu.navbar-default .navbar-nav > li > a:hover:after {
+  width: 100%;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  background-color: transparent;
+}
+.navbar-default .navbar-nav > .active > a:after,
+.navbar-default .navbar-nav > .active > a:hover:after,
+.navbar-default .navbar-nav > .active > a:focus:after {
+  display: block !important;
+  position: absolute !important;
+  left: 0 !important;
+  bottom: -1px !important;
+  width: 100% !important;
+  height: 2px !important;
+  background: linear-gradient(to right, #6372ff 0%, #5ca9fb 100%) !important;
+  content: "" !important;
+  transition: width 0.2s !important;
+}
+.navbar-toggle {
+  border-radius: 0;
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #fff;
+  border-color: #608dfd;
+}
+.navbar-default .navbar-toggle:hover > .icon-bar {
+  background-color: #608dfd;
+}
+
+/* Navigation Bar Styles */
+#menu {
+  background-color: #333; /* Background color */
+  border: none; /* Remove border */
+  padding: 10px 0; /* Add some padding */
+}
+
+.navbar-brand {
+  color: #fff; /* Text color for the brand */
+  font-size: 24px; /* Font size for the brand */
+  transition: color 0.3s; /* Smooth color transition on hover */
+}
+
+.navbar-brand:hover {
+  color: #ff5733; /* Change the color on hover */
+}
+
+.navbar-nav > li > a {
+  color: #fff; /* Text color for navigation links */
+  font-size: 16px; /* Font size for navigation links */
+  transition: color 0.3s; /* Smooth color transition on hover */
+}
+
+.navbar-nav > li > a:hover {
+  color: #ff5733; /* Change the color on hover */
+}
+
+/* Navbar toggle button */
+.navbar-toggle {
+  background-color: #ff5733; /* Background color for the toggle button */
+}
+
+/* Navbar toggle icon bars */
+.navbar-toggle .icon-bar {
+  background-color: #fff; /* Color of the toggle bars */
+}
+
+/* Container Styles */
+.container {
+  padding-right: 15px; /* Add some right padding */
+  padding-left: 15px; /* Add some left padding */
+}
+
+/* Center the navigation links in the navbar */
+.navbar-nav {
+  display: flex;
+  justify-content: center;
+}
+
+/* Adjust the size and alignment of the toggle button */
+.navbar-header {
+  display: flex;
+  align-items: center;
+}
+
+/* Remove underline on links */
+.navbar-nav > li > a {
+  text-decoration: none;
+}
+
+/* Navigation Bar Styles */
+#menu {
+  background-color: #1a1a1a; /* Dark background color */
+  border: none;
+  padding: 15px 0; /* Increased padding for better spacing */
+  border-bottom: 3px solid #ff5733; /* Highlighted bottom border */
+}
+
+.navbar-brand {
+  color: #ff5733; /* Highlighted brand text color */
+  font-size: 24px;
+  transition: color 0.3s, transform 0.3s; /* Smooth color and transform transition on hover */
+}
+
+.navbar-brand:hover {
+  color: #ff8c50; /* Change brand text color on hover */
+  transform: scale(1.05); /* Slight scale increase on hover */
+}
+
+.navbar-nav > li > a {
+  color: #fff;
+  font-size: 16px;
+  transition: color 0.3s; /* Smooth color transition on hover */
+}
+
+.navbar-nav > li > a:hover {
+  color: #ff5733; /* Change text color on hover */
+}
+
+/* Navbar toggle button */
+.navbar-toggle {
+  background-color: #ff5733;
+  border: 2px solid #ff5733; /* Add border to the toggle button */
+}
+
+/* Navbar toggle icon bars */
+.navbar-toggle .icon-bar {
+  background-color: #fff;
+}
+
+/* Container Styles */
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* Center the navigation links in the navbar */
+.navbar-nav {
+  display: flex;
+  justify-content: center;
+}
+
+/* Adjust the size and alignment of the toggle button */
+.navbar-header {
+  display: flex;
+  align-items: center;
+}
+
+/* Remove underline on links */
+.navbar-nav > li > a {
+  text-decoration: none;
+}
+
+/* Add a subtle shadow to the navigation bar */
+#menu {
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Give the navigation bar a slight transparent background */
+#menu {
+  background-color: rgba(26, 26, 26, 0.9);
+}
+
+/* Increase spacing between navigation links */
+.navbar-nav > li {
+  margin: 0 15px;
 }
