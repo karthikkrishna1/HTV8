@@ -41,9 +41,12 @@ const options = {
 axios
   .request(options)
   .then(function (response) {
-    console.log(response.data.classifications[0].input);
-    console.log(response.data.classifications[0].prediction);
-    console.log(response.data.classifications[0].confidence);
+    for (let i = 0; i < response.data.classifications.length; i++) {
+      console.log(response.data.classifications[i].input);
+      console.log(response.data.classifications[i].prediction);
+      console.log(response.data.classifications[i].confidence);
+    }
+    // console.log(response.data);
   })
   .catch(function (error) {
     console.error(error);
@@ -57,3 +60,4 @@ axios
 //   .catch(function (error) {
 //     console.error(error);
 //   });
+
