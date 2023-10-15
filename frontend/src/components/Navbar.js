@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Flex,
@@ -11,9 +12,15 @@ import {
   useBreakpointValue,
   useDisclosure,
   Avatar,
+  Wrap,
   WrapItem,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon, ChevronDownIcon } from "@chakra-ui/icons";
+import {
+  HamburgerIcon,
+  CloseIcon,
+  ChevronDownIcon,
+  ArrowRightIcon,
+} from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import { AuthState } from "./authProvider";
 
@@ -21,7 +28,6 @@ export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
 
   const user = AuthState().user;
-  console.log(user);
 
   return (
     <Box>
@@ -51,29 +57,33 @@ export default function WithSubnavigation() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-          <Text
-            textAlign={useBreakpointValue({ base: "center", md: "left" })}
-            fontFamily={"heading"}
-            color={useColorModeValue("gray.800", "white")}
-          >
-            Logo
-          </Text>
-
+          <Link to="/">
+            <Text
+              fontFamily={"heading"}
+              color={useColorModeValue("gray.800", "white")}
+              fontSize="2xl"
+              fontWeight="bold"
+            >
+              Logo
+            </Text>
+          </Link>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />
           </Flex>
         </Flex>
-        {user ? (
-          <WrapItem>
-            <Avatar src={user.picture} />
-          </WrapItem>
-        ) : (
-          <Stack
-            flex={{ base: 1, md: 0 }}
-            justify={"flex-end"}
-            direction={"row"}
-            spacing={6}
-          >
+        <Stack flex={{ base: 1, md: 0 }} justify={"flex-end"} direction={"row"} spacing={6}>
+          {user ? (
+            <Wrap>
+              <WrapItem>
+                <Avatar src={user.picture} />
+              </WrapItem>
+              <WrapItem>
+                <Button as={"a"} fontSize={"sm"} fontWeight={400} variant={"link"} href={"#"}>
+                  Sign Out
+                </Button>
+              </WrapItem>
+            </Wrap>
+          ) : (
             <Button
               as={"a"}
               fontSize={"sm"}
@@ -83,22 +93,8 @@ export default function WithSubnavigation() {
             >
               Sign In
             </Button>
-            <Button
-              as={"a"}
-              display={{ base: "none", md: "inline-flex" }}
-              fontSize={"sm"}
-              fontWeight={600}
-              color={"white"}
-              bg={"pink.400"}
-              href={"#"}
-              _hover={{
-                bg: "pink.300",
-              }}
-            >
-              Sign Up
-            </Button>
-          </Stack>
-        )}
+          )}
+        </Stack>
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
@@ -136,11 +132,7 @@ const DesktopNav = () => {
 
 const MobileNav = () => {
   return (
-    <Stack
-      bg={useColorModeValue("white", "gray.800")}
-      p={4}
-      display={{ md: "none" }}
-    >
+    <Stack bg={useColorModeValue("white", "gray.800")} p={4} display={{ md: "none" }}>
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
@@ -161,10 +153,7 @@ const MobileNavItem = ({ label, children, href }) => {
           textDecoration: "none",
         }}
       >
-        <Text
-          fontWeight={600}
-          color={useColorModeValue("gray.600", "gray.200")}
-        >
+        <Text fontWeight={600} color={useColorModeValue("gray.600", "gray.200")}>
           <Link to={href}>{label}</Link>
         </Text>
         {children && (
@@ -190,7 +179,12 @@ const MobileNavItem = ({ label, children, href }) => {
           {children &&
             children.map((child) => (
               <Box key={child.label} py={2}>
-                <Link to={child.href}>{child.label}</Link>
+                <Link to={child.href}>
+                  <Flex alignItems="center">
+                    <ArrowRightIcon />
+                    {child.label}
+                  </Flex>
+                </Link>
               </Box>
             ))}
         </Stack>

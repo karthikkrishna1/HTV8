@@ -1,36 +1,60 @@
-import WithSubnavigation from "./Navbar";
-import axios from "axios";
-
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { VStack, Box, Heading } from "@chakra-ui/react";
+import WithSubnavigation from "./Navbar";
 import Post from "./Post";
-import { VStack } from "@chakra-ui/react";
+import "./Dashboard.css";
 
 const Dashboard = () => {
   const [posts, setPosts] = useState([]);
-  console.log(posts);
+
   useEffect(() => {
-    const getposts = async () => {
+    const getPosts = async () => {
       try {
         const { data } = await axios.get("http://localhost:5000/posts");
-
         const { posts: allPosts } = data;
         setPosts(allPosts);
       } catch (err) {
-        console.log(err);
+        console.error(err); // Changed to console.error for better error handling.
       }
     };
 
-    getposts();
+    getPosts();
   }, []);
+
   return (
-    <>
+    <Box
+      backgroundImage="url(https://static.vecteezy.com/system/resources/previews/005/927/984/original/black-and-white-geometric-background-with-cubes-vector.jpg)"
+      backgroundPosition="center"
+      backgroundSize="cover"
+      height="100vh"
+    >
       <WithSubnavigation />
-      <VStack spacing={4} p={4}>
-        {posts.map((post) => (
-          <Post key={post._id} post={post} />
-        ))}
-      </VStack>
-    </>
+      <Box >
+      <Heading
+        as="h4"
+        size="md"
+        mb={4}
+        p={2}
+        bgColor="gray.500"
+        color="white"
+        transition="background-color 0.2s"
+        _hover={{
+          bgColor: "gray.700",
+        }}
+        >
+          Feed
+        </Heading>
+        <VStack spacing={4}>
+          {posts.map((post) => (
+            <Box key={post._id} h="500px"
+            >
+            <Post post={post} />
+          </Box>
+          ))}
+        </VStack>
+      </Box>
+    </Box>
   );
 };
 
