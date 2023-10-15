@@ -2,6 +2,7 @@ import { Box, Card, CardHeader, Heading, Text, VStack } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import WithSubnavigation from "./Navbar";
 
 const PostDescriptionPage = () => {
   const { id } = useParams();
@@ -22,6 +23,23 @@ const PostDescriptionPage = () => {
   }, []);
   return (
     <>
+    <box>
+            <WithSubnavigation />
+            <Heading
+        as="h4"
+        size="md"
+        mb={4}
+        p={2}
+        bgColor="gray.400"
+        color="white"
+        transition="background-color 0.2s"
+        _hover={{
+          bgColor: "gray.700",
+          cursor: "pointer",
+        }}
+        >
+          Post Description
+        </Heading>
       {loading ? (
         <Text>Fetching Details</Text>
       ) : post.comments.length ? (
@@ -42,6 +60,7 @@ const PostDescriptionPage = () => {
       ) : (
         <Text>No Comments</Text>
       )}
+      </box>
     </>
   );
 };

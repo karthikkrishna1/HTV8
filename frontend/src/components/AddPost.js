@@ -3,23 +3,26 @@ import { useNavigate } from "react-router-dom";
 import { VStack } from "@chakra-ui/layout";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import { Box, Card, CardHeader, Heading, Text } from "@chakra-ui/react";
 import { Button, useToast } from "@chakra-ui/react";
 import axios from "axios";
+import WithSubnavigation from "./Navbar";
 import { AuthState } from "./authProvider";
+
 const AddPost = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const user = AuthState().user;
-  console.log(user?.accessToken);
-
   const toast = useToast();
   const navigate = useNavigate();
   const [pic, setPic] = useState();
   const [loading, setLoading] = useState(false);
+
+  // Redirect to login if user is not authenticated
   if (!user?.accessToken) {
     navigate("/login");
     toast({
-      title: "Please login First",
+      title: "Please login first",
       status: "warning",
       duration: 5000,
       isClosable: true,
@@ -41,6 +44,7 @@ const AddPost = () => {
     }
 
     try {
+      // Make the axios post request
       const data = await axios.post(
         "http://localhost:5000/posts",
         { title, body, image: pic },
@@ -55,18 +59,14 @@ const AddPost = () => {
       navigate("/");
     } catch (err) {
       console.log(err);
-      //   if (err.response.status === 403) {
-      //     localStorage.removeItem("userInfo");
-      //     navigate("/login");
-      //   }
     }
   };
+
   const postDetails = (pics) => {
-    console.log(pics);
     setLoading(true);
     if (pics === undefined) {
       toast({
-        title: "Please select an Image",
+        title: "Please select an image",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -91,47 +91,85 @@ const AddPost = () => {
         });
     }
   };
+
   return (
-    <VStack spacing="5px" color="black">
-      <FormControl id="title" isRequired>
-        <FormLabel>Title</FormLabel>
-        <Input
-          value={title}
-          placeholder="Title"
-          onChange={(e) => setTitle(e.target.value)}
-        ></Input>
-      </FormControl>
+    <Box
+    style={{
+      backgroundImage: `url('https://static.vecteezy.com/system/resources/previews/005/927/984/original/black-and-white-geometric-background-with-cubes-vector.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      height: '100vh',
+    }}>
+    <WithSubnavigation />
 
-      <FormControl id="body" isRequired>
-        <FormLabel>Body</FormLabel>
-        <InputGroup>
-          <Input
-            type="text"
-            placeholder="Enter your password"
-            onChange={(e) => setBody(e.target.value)}
-            value={body}
-          ></Input>
-        </InputGroup>
-      </FormControl>
+    <Box
+    display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      margin="100px"
+>
+  
+      <Card p={4}>
+      <Heading
+        as="h4"
+        size="md"
+        mb={4}
+        p={2}
+        bgColor="white"
+        color="black"
+        transition="background-color 0.2s"
+        _hover={{
+          bgColor: "gray.200",
+          cursor: "pointer",
+        }}
+        >
+          Add Post
+        </Heading>
+        <VStack spacing="5px" color="black">
+          <FormControl id="title" isRequired>
+            <FormLabel>Title</FormLabel>
+            <Input
+              value={title}
+              placeholder="Title"
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </FormControl>
 
-      <FormControl id="pic">
-        <Input
-          type="file"
-          p={1.5}
-          accept="image/*"
-          onChange={(e) => postDetails(e.target.files[0])}
-        ></Input>
-      </FormControl>
-      <Button
-        isLoading={loading}
-        width="100%"
-        colorScheme="blue"
-        style={{ marginTop: 15 }}
-        onClick={submitHandler}
-      >
-        Submit
-      </Button>
-    </VStack>
+          <FormControl id="body" isRequired>
+            <FormLabel>Body</FormLabel>
+            <InputGroup>
+              <Input
+                type="text"
+                placeholder="Enter your password"
+                onChange={(e) => setBody(e.target.value)}
+                value={body}
+              />
+            </InputGroup>
+          </FormControl>
+
+          <FormControl id="pic">
+            <Input
+              type="file"
+              p={1.5}
+              accept="image/*"
+              onChange={(e) => postDetails(e.target.files[0])}
+            />
+          </FormControl>
+
+          <Button
+            isLoading={loading}
+            width="100%"
+            colorScheme="blue"
+            style={{ marginTop: 15 }}
+            onClick={submitHandler}
+          >
+            Submit
+          </Button>
+        </VStack>
+      </Card>
+    </Box>
+    </Box>
   );
 };
 

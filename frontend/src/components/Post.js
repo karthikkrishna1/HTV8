@@ -55,7 +55,7 @@ const Post = ({ post }) => {
           src={post.image || "https://th.bing.com/th/id/OIP.qZgnt9IbdzjsdIHKRb357gHaEK?pid=ImgDet&rs=1"}
           borderRadius="lg"
           objectFit="cover"
-          height="300px" // Set a fixed height for the image
+          height="400px" // Set a fixed height for the image
           width="100%" // Make the image full-width within the card
         />
         <Text fontSize="lg" p={4}> {/* Increase font size for the post body */}
