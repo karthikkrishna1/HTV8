@@ -54,7 +54,7 @@ const PostDescriptionPage = () => {
     <Image src="https://media.tenor.com/9yaCKAT8LKYAAAAC/crime-scene.gif" alt="Placeholder Image" />
   )}
 </Center>
-<Text>Comments</Text>
+  <Text>Comments</Text>
 
     {post.comments.map((comment) => {
       return (
