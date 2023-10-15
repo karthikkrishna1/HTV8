@@ -8,7 +8,7 @@ router
   .get(postsController.getPosts)
   .post(verifyJWT, postsController.addPost);
 
-router.route("/:id").get(verifyJWT, postsController.getPostById);
+router.route("/:id").get(postsController.getPostById);
 
 router
   .route("/:id/comments/")

@@ -21,15 +21,16 @@ const getPosts = asyncHandler(async (req, res) => {
 
 const addPost = asyncHandler(async (req, res) => {
   const id = req.user;
-  const { body } = req.body;
+  const { title, body, image } = req.body;
   if (!id) {
     return res.status(401).json({ message: "User not logged in" });
   }
   const curUser = await User.findById(id).exec();
+
   if (!curUser) {
     return res.status(403).json({ message: "Not Authorized" });
   }
-  const result = await Post.create({ body, Sender: id });
+  const result = await Post.create({ title, body, Sender: id, image });
   curUser.Posts.push(result._id);
   const result2 = await curUser.save();
   const newPost = await Post.findById(result._id).populate(

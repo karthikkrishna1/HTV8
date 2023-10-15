@@ -4,6 +4,9 @@ const PostSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  title: {
+    type: String,
+  },
   created: {
     type: Date,
     default: Date.now,
@@ -11,6 +14,9 @@ const PostSchema = new mongoose.Schema({
   body: {
     type: String,
     required: true,
+  },
+  image: {
+    type: String,
   },
   comments: [
     {

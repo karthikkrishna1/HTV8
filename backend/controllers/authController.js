@@ -21,14 +21,18 @@ const handleLogin = asyncHandler(async (req, res) => {
       { expiresIn: "15m" }
     );
 
-    res.json({ accessToken });
+    res.json({
+      username: foundUser.username,
+      accessToken,
+      picture: foundUser.image,
+    });
   } else {
     res.sendStatus(401);
   }
 });
 
 const handleNewUser = async (req, res) => {
-  const { user, pwd } = req.body;
+  const { user, pwd, picture } = req.body;
   if (!user || !pwd)
     return res
       .status(400)
@@ -40,7 +44,11 @@ const handleNewUser = async (req, res) => {
   try {
     const hashedPwd = await bcrypt.hash(pwd, 10);
 
-    const result = await User.create({ username: user, password: hashedPwd });
+    const result = await User.create({
+      username: user,
+      password: hashedPwd,
+      image: picture,
+    });
 
     console.log(result);
 
