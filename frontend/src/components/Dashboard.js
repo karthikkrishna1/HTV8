@@ -36,11 +36,11 @@ const Dashboard = () => {
         size="md"
         mb={4}
         p={2}
-        bgColor="gray.400"
+        bgColor="gray.00"
         color="white"
         transition="background-color 0.2s"
         _hover={{
-          bgColor: "gray.700",
+          bgColor: "gray.00",
           cursor: "pointer",
         }}
         >

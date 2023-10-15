@@ -9,6 +9,8 @@ import axios from "axios";
 import WithSubnavigation from "./Navbar";
 import { AuthState } from "./authProvider";
 
+
+
 const AddPost = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -141,12 +143,24 @@ const AddPost = () => {
             <InputGroup>
               <Input
                 type="text"
-                placeholder="Enter your password"
+                placeholder="Enter your description"
                 onChange={(e) => setBody(e.target.value)}
                 value={body}
               />
             </InputGroup>
           </FormControl>
+
+          {/* <FormControl id="body" isRequired>
+            <FormLabel>Location</FormLabel>
+            <InputGroup>
+              <Input
+                type="text"
+                placeholder="Enter your location"
+                onChange={(e) => setBody(e.target.value)}
+                value={body}
+              />
+            </InputGroup>
+          </FormControl> */}
 
           <FormControl id="pic">
             <Input

@@ -23,6 +23,7 @@ import {
 } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import { AuthState } from "./authProvider";
+import logo from './logo.png'; // Tell webpack this JS file uses this image
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
@@ -64,7 +65,7 @@ export default function WithSubnavigation() {
               fontSize="2xl"
               fontWeight="bold"
             >
-              Logo
+               <img src={logo} alt="Logo" width="100" height="100" />
             </Text>
           </Link>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>

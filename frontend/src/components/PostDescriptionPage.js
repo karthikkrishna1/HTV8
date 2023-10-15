@@ -1,8 +1,9 @@
-import { Box, Card, CardHeader, Heading, Text, VStack } from "@chakra-ui/react";
+import { Box, Card, CardHeader, Heading, Text, VStack, Image} from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import WithSubnavigation from "./Navbar";
+import { Center} from "@chakra-ui/react";
 
 const PostDescriptionPage = () => {
   const { id } = useParams();
@@ -40,26 +41,46 @@ const PostDescriptionPage = () => {
         >
           Post Description
         </Heading>
-      {loading ? (
-        <Text>Fetching Details</Text>
-      ) : post.comments.length ? (
-        post?.comments?.map((comment) => {
-          return (
-            <VStack>
-              <Card margin={3} width={"xs"} _hover={{ boxShadow: "dark-lg" }}>
-                <CardHeader>
-                  <Text fontSize={"2xl"} fontWeight={"bold"}>
-                    {comment.user.username}
-                  </Text>
-                </CardHeader>
-                <Text>{comment.text}</Text>
-              </Card>
-            </VStack>
-          );
-        })
-      ) : (
-        <Text>No Comments</Text>
-      )}
+        {loading ? (
+  <Text>Fetching Details</Text>
+) : post.comments.length ? (
+  <>
+    <Text>{post.title}</Text>
+    <Text>{post.body}</Text>
+    <Center>
+  {post.image ? (
+    <Image src={post.image} alt="Post Picture" />
+  ) : (
+    <Image src="https://media.tenor.com/9yaCKAT8LKYAAAAC/crime-scene.gif" alt="Placeholder Image" />
+  )}
+</Center>
+<Text>Comments</Text>
+
+    {post.comments.map((comment) => {
+      return (
+        <VStack>
+         <Card
+  margin={1}
+  width={"xs"}
+  _hover={{ boxShadow: "dark-lg" }}
+>
+  {/* Comment: User Comment Card */}
+  <CardHeader>
+    <Text fontSize={"1xl"} fontWeight={"light"}>
+      {comment.user.username}
+    </Text>as
+  </CardHeader>
+  <Text>{comment.text}</Text>
+</Card>
+
+        </VStack>
+      );
+    })}
+  </>
+) : (
+  <Text>No Comments</Text>
+)}
+
       </box>
     </>
   );
